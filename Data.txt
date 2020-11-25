@@ -1,0 +1,88 @@
+And, Andromeda, Андромеда: Per, Cas, Lac, Peg, Psc, Tri.
+Gem, Gemini, Близнецы: Cnc, CMi, Mon, Ori, Tau, Aur, Lyn.
+UMa, Ursa Major, Большая Медведица: Dra, Cam, Lyn, LMi, Leo, Com, CVn, Boo.
+CMa, Canis Major, Большой Пёс: Mon, Lep, Col, Pup.
+Lib, Libra, Весы: Ser, Oph, Sco, Lup, Hya, Vir, Cen.
+Aqr, Aquarius, Водолей: Psc, Peg, Equ, Del, Aql, Cap, PsA, Scl, Cet.
+Aur, Auriga, Возничий: Cam, Per, Tau, Gem, Lyn.
+Lup, Lupus, Волк: Nor, Sco, Cir, Cen, Lib, Hya.
+Boo, Bootes, Волопас: CVn, Com, CrB, Dra, Her, Ser, Vir, UMa.
+Com, Coma Berenices, Волосы Вероники: CVn, UMa, Leo, Vir, Boo.
+Crv, Corvus, Ворон: Vir, Hya, Crt.
+Her, Hercules, Геркулес: Dra, Boo, CrB, Ser, Oph, Aql, Sge, Vul, Lyr.
+Hya, Hydra, Гидра: Vir, Crt, Crv, Sex, Leo, Cnc, CMi, Mon, Pup, Pyx, Ant, Cen, Lup, Lib.
+Col, Columba, Голубь: CMa, Lep, Cae, Pic, Pup.
+CVn, Canes Venatici, Гончие Псы: UMa, Com, Boo.
+Vir, Virgo, Дева: Com, Boo, Ser, Lib, Hya, Leo, Crt, Crv.
+Del, Delphinus, Дельфин: Vul, Sge, Aql, Aqr, Equ, Peg.
+Dra, Draco, Дракон: Boo, Her, Lyr, Cyg, Cep, UMi, Cam, UMa.
+Mon, Monoceros, Единорог: Ori, Gem, CMi, Hya, Pup, CMa, Lep.
+Ara, Ara, Жертвенник: CrA, Sco, Nor, TrA, Aps, Pav, Tel.
+Pic, Pictor, Живописец: Cae, Car, Col, Dor, Pup, Vol.
+Cam, Camelopardalis, Жираф: UMi, Dra, UMa, Lyn, Aur, Per, Cas, Cep.
+Gru, Grus, Журавль: PsA, Scl, Phe, Tuc, Ind, Mic.
+Lep, Lepus, Заяц: Ori, Mon, CMa, Col, Cae, Eri.
+Oph, Ophiuchus, Змееносец: Ser, Aql, Sgr, Sco, Lib, Her.
+Ser, Serpens, Змея: CrB, Boo, Vir, Lib, Oph, Her, Aql, Sgr, Sct.
+Dor, Dorado, Золотая Рыба: Pic, Vol, Men, Hyi, Ret, Hor, Cae.
+Ind, Indus, Индеец: Pav, Oct, Tuc, Gru, Mic, Tel, Sgr.
+Cas, Cassiopeia, Кассиопея: Cam, Cep, Lac, And, Per.
+Car, Carina, Киль: Vol, Cha, Cen, Mus, Vel, Pup, Pic.
+Cet, Cetus, Кит: Tau, Eri, Ari, Psc, Aqr, For, Scl.
+Cap, Capricornus, Козерог: Aqr, Aql, Sgr, Mic, PsA.
+Pyx, Pyxis, Компас: Hya, Pup, Ant, Vel.
+Pup, Puppis, Корма: Mon, Pyx, Vel, Car, Pic, Col, CMa, Hya.
+Cyg, Cygnus, Лебедь: Cep, Dra, Lyr, Vul, Peg, Lac.
+Leo, Leo, Лев: UMa, LMi, Com, Vir, Crt, Hya, Cnc, Sex, Lyn.
+Vol, Volans, Летучая Рыба: Car, Pic, Dor, Men, Cha.
+Lyr, Lyra, Лира: Dra, Her, Vul, Cyg.
+Vul, Vulpecula, Лисичка: Cyg, Lyr, Her, Sge, Del, Peg.
+UMi, Ursa Minor, Малая Медведица: Dra, Cam, Cep.
+Equ, Equuleus, Малый Конь: Peg, Del, Aqr.
+LMi, Leo Minor, Малый Лев: UMa, Lyn, Cnc, Leo.
+CMi, Canis Minor, Малый Пёс: Mon, Gem, Cnc, Hya.
+Mic, Microscopium, Микроскоп: Cap, Sgr, Tel, Ind, PsA, Gru.
+Mus, Musca, Муха: Cru, Cen, Cir, Aps, Cha, Car.
+Ant, Antlia, Насос: Hya, Pyx, Vel, Cen.
+Nor, Norma, Наугольник: Sco, Lup, Cir, TrA, Ara.
+Ari, Aries, Овен: Per, Tri, Psc, Cet, Tau.
+Oct, Octans, Октант: Cha, Aps, Pav, Ind, Tuc, Hyi, Men.
+Aql, Aquila, Орёл: Sge, Her, Oph, Ser, Sct, Sgr, Cap, Aqr, Del.
+Ori, Orion, Орион: Gem, Tau, Eri, Lep, Mon.
+Pav, Pavo, Павлин: Oct, Aps, Ara, Ind, Tel.
+Vel, Vela, Паруса: Ant, Pyx, Pup, Car, Cen.
+Peg, Pegasus, Пегас: And, Lac, Cyg, Vul, Del, Equ, Aqr, Psc.
+Per, Perseus, Персей: Cas, And, Tri, Ari, Tau, Aur, Cam.
+For, Fornax, Печь: Cet, Scl, Phe, Eri.
+Aps, Apus, Райская Птица: TrA, Cir, Mus, Cha, Oct, Pav, Ara.
+Cnc, Cancer, Рак: Lyn, Gem, CMi, Hya, Leo, LMi.
+Cae, Caelum, Резец: Col, Lep, Eri, Hor, Dor, Pic.
+Psc, Pisces, Рыбы: Ari, Tri, Cet, And, Peg, Aqr.
+Lyn, Lynx, Рысь: UMa, Cam, Aur, Gem, Cnc, Leo, LMi.
+CrB, Corona Borealis, Северная Корона: Her, Boo, Ser.
+Sex, Sextans, Секстант: Leo, Hya, Crt.
+Ret, Reticulum, Сетка: Hyi, Hor, Dor.
+Sco, Scorpius, Скорпион: Sgr, Oph, Lib, Lup, CrA, Ara, Nor.
+Scl, Sculptor, Скульптор: Cet, Aqr, PsA, Phe, For, Gru.
+Men, Mensa, Столовая Гора: Cha, Dor, Hyi, Oct, Vol.
+Sge, Sagitta, Стрела: Vul, Her, Aql, Del.
+Sgr, Sagittarius, Стрелец: Aql, Sct, Ser, Oph, Sco, CrA, Tel, Mic, Cap, Ind.
+Tel, Telescopium, Телескоп: Ara, CrA, Ind, Mic, Pav, Sgr.
+Tau, Taurus, Телец: Aur, Per, Ari, Cet, Eri, Ori, Gem.
+Tri, Triangulum, Треугольник: Per, And, Psc, Ari.
+Tuc, Tucana, Тукан: Gru, Ind, Oct, Hyi, Eri, Phe.
+Phe, Phoenix, Феникс: Scl, Gru, Tuc, Hyi, Eri, For.
+Cha, Chamaeleon, Хамелеон: Mus, Car, Vol, Men, Oct, Aps.
+Cen, Centaurus, Центавр: Ant, Car, Cir, Cru, Hya, Lib, Lup, Mus, Vel.
+Cep, Cepheus, Цефей: UMi, Dra, Cyg, Lac, Cas, Cam.
+Cir, Circinus, Циркуль: Cen, Mus, Aps, TrA, Nor, Lup.
+Hor, Horologium, Часы: Eri, Hyi, Ret, Dor, Cae.
+Crt, Crater, Чаша: Leo, Sex, Hya, Crv, Vir.
+Sct, Scutum, Щит: Aql, Sgr, Ser.
+Eri, Eridanus, Эридан: Ori, Tau, Cet, Lep, For, Phe, Hyi, Tuc, Hor, Cae.
+Hyi, Hydrus, Южная Гидра: Dor, Eri, Hor, Men, Oct, Phe, Ret, Tuc.
+CrA, Corona Australis, Южная Корона: Sco, Sgr, Tel, Ara.
+PsA, Piscis Austrinus, Южная Рыба: Cap, Mic, Scl, Aqr, Gru.
+Cru, Crux, Южный Крест: Cen, Mus.
+TrA, Triangulum Australe, Южный Треугольник: Nor, Ara, Cir, Aps.
+Lac, Lacerta, Ящерица: And, Cas, Cep, Cyg, Peg.
