@@ -21,9 +21,9 @@ class Node ():
             full_file_str = file.read()
             file.close()
             
-        find_str = self._get_regex_str(find_regex, full_file_str)
-        name_str = self._get_regex_str(name_regex, find_str)
-        neighbour_str = self._get_regex_str(neighbour_regex, find_str)
+        find_str = self._find_str(find_regex, full_file_str)
+        name_str = self._find_str(name_regex, find_str)
+        neighbour_str = self._find_str(neighbour_regex, find_str)
         
         
         
@@ -31,11 +31,11 @@ class Node ():
     def _get_regex(self, template:str):
         return re.compile(template)
         
-    def _get_regex_str (self, regex, object_str):
+    def _find_str (self, regex, object_str):
         _match = regex.search(object_str)
         return _match.group()
 
 
 class Graph ():
-    def __init__(self, _file_name:str):
-        self.file_name = _file_name
+    def __init__(self, file_name:str):
+        self.file_name = file_name
