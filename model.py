@@ -91,6 +91,9 @@ class Graph ():
         _match = regex.search(object_str)
         return _match.group()
 
+if __name__ == "__main__":
+    print("This module is not for direct call!")
+
 '''           
 G = Graph('Data.txt')
 print(G.constellations['Crv'].names)

@@ -3,12 +3,22 @@ import os
 import pygame
 pygame.init()
 
-
 window = pygame.display.set_mode((800, 670))
 info = pygame.image.load('name.png')
 screen = pygame.image.load('starsky.jpg')  # Картинка заднего фона
 pygame.display.set_caption('ASTROWARS')
 
+lifes = 5
+
+pygame.font.init()
+lifes_f = pygame.font.SysFont('Times new roman', 32)
+end = pygame.font.SysFont('Times new roman', 80)
+again = pygame.font.SysFont('Times new roman', 40)
+
+punkts = [(350, 260, u'Play', (11, 0, 77), (250, 250, 30), 0),
+          (350, 300, u'Rules', (11, 0, 77), (250, 250, 30), 1),
+          (350, 340, u'Score', (11, 0, 77), (250, 250, 30), 2),
+          (350, 380, u'Exit', (11, 0, 77), (250, 250, 30), 3)]
 
 class Menu:
     """
@@ -66,48 +76,5 @@ class Menu:
             window.blit(screen, (0, 150))
             window.blit(info, (70, 0))
             pygame.display.flip()
-
-
-lifes = 5
-
-pygame.font.init()
-lifes_f = pygame.font.SysFont('Times new roman', 32)
-end = pygame.font.SysFont('Times new roman', 80)
-again = pygame.font.SysFont('Times new roman', 40)
-
-punkts = [(350, 260, u'Play', (11, 0, 77), (250, 250, 30), 0),
-          (350, 300, u'Rules', (11, 0, 77), (250, 250, 30), 1),
-          (350, 340, u'Score', (11, 0, 77), (250, 250, 30), 2),
-          (350, 380, u'Exit', (11, 0, 77), (250, 250, 30), 3)]
-game = Menu(punkts)
-game.menu()
-
-done = True
-pygame.key.set_repeat(1, 1)
-while done:
-    for e in pygame.event.get():
-        if e.type == pygame.QUIT:
-            done = False
-        if e.type == pygame.KEYDOWN:
-            if e.key == pygame.K_ESCAPE:
-                game.menu()
-
-        if e.type == pygame.MOUSEMOTION:
-            pygame.mouse.set_visible(False)
-            p = pygame.mouse.get_pos()
-
-    y = -300
-    x = -200
-
-    screen = pygame.image.load('starsky.jpg')
-    info = pygame.image.load('name.png')
-
-    screen.blit(end.render('Game Over', 1, (210, 120, 200)), (200, y))
-    screen.blit(again.render('Try again?(press Space)', 1, (210, 120, 200)),
-                (200, x))
-    info.blit(lifes_f.render('Lifes: ' + str(lifes), 1, (210, 120, 200)),
-              (600, 0))
-    window.blit(info, (0, 0))
-    window.blit(screen, (0, 30))
-    pygame.display.flip()
-    pygame.time.delay(5)
+if __name__ == "__main__":
+    print("This module is not for direct call!")
