@@ -4,18 +4,18 @@ import pygame
 pygame.init()
 
 window = pygame.display.set_mode((800, 670))
-info = pygame.image.load('name.png')
+info = pygame.image.load('name.png')  # Картинка с названием игры
 screen = pygame.image.load('starsky.jpg')  # Картинка заднего фона
-pygame.display.set_caption('ASTROWARS')
+pygame.display.set_caption('ASTROWARS')  # Отображение названия игры в шапке окна
 
-lifes = 5
+lifes = 5  # Начальное количество возможных ошибок
 
 pygame.font.init()
-lifes_f = pygame.font.SysFont('Times new roman', 32)
+lifes_f = pygame.font.SysFont('Times new roman', 32)  
 end = pygame.font.SysFont('Times new roman', 80)
 again = pygame.font.SysFont('Times new roman', 40)
 
-punkts = [(350, 260, u'Play', (11, 0, 77), (250, 250, 30), 0),
+punkts = [(350, 260, u'Play', (11, 0, 77), (250, 250, 30), 0), # Кнопки в окне меню
           (350, 300, u'Rules', (11, 0, 77), (250, 250, 30), 1),
           (350, 340, u'Score', (11, 0, 77), (250, 250, 30), 2),
           (350, 380, u'Exit', (11, 0, 77), (250, 250, 30), 3)]
@@ -24,13 +24,19 @@ class Menu:
     """
     Класс, отвечающий за создание меню и работу с ним
     """
-    def __init__(self, punkts=None):
+    def __init__(self, punkts=None): 
+        """
+        Функция отвечает за считывание кнопок 
+        """
         if punkts is None:
             punkts = [400, 350, u'Punkt', (250, 250, 30),
                       (250, 30, 250)]
         self.punkts = punkts
 
     def render(self, poverhnost, font, num_punkt):
+         """
+         Функция отвечает за расположение кнопок в игровом окне 
+         """
         for i in self.punkts:
             if num_punkt == i[5]:
                 poverhnost.blit(font.render(i[2], 1, i[4]), (i[0], i[1] - 150))
