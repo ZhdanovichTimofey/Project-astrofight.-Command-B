@@ -5,14 +5,16 @@ import math
 import sys
 import random
 from pygame import mixer
+from model import *
+from menu import *
 mixer.init()
 
 
 pygame.init()
 
-window = pygame.display.set_mode((800,670))
+window = pygame.display.set_mode((800, 670))
 
-screen = pygame.Surface((1530,830))
+screen = pygame.Surface((1530, 830))
 
 
 clock = pygame.time.Clock()
@@ -26,15 +28,16 @@ clauses = [(100, 0, u'Play', (25, 25, 112), (99, 184, 255), 0),
            (120, 500, 'Score', (25, 25, 112), (99, 184, 255), 2),
            (180, 500, 'Exit', (25, 25, 112), (99, 184, 255), 2)]
 states = [(100, 50, u'Master', (25, 25, 112), (99, 184, 255), 0),
-          (120, 120, u'Beginner', (25, 25, 112), (99, 184, 255), 1),]
+          (120, 120, u'Beginner', (25, 25, 112), (99, 184, 255), 1)]
 buttons = [(200, 200, 'Retry', (25, 25, 112), (99, 184, 255), 0),
            (600, 600, 'Menu', (25, 25, 112), (99, 184, 255), 1)]
 
-levels = [level 1, level 2]
+levels = [level_1, level_2]
 t = 100
-dm =100000
+dm = 100000
 dr = 1
 coord = [0] * 4
+
 
 def chooselevel(p):
     background_image = pygame.image.load("starsky.jpg").convert()
@@ -75,7 +78,6 @@ def chooselevel(p):
 
                 game.pause(p)
 
-
             window.blit(screen, (0, 0))
             window.blit(background_image, [0, 0])
 
@@ -101,21 +103,28 @@ def chooselevel(p):
             window.blit(imageI, imageT)
 
             # drawing spaceship
-            pygame.draw.circle(window, (0, 120, 30), (portal[0], portal[1]), portal[2])
-            pygame.draw.line(window, (255, 255, 0), (spaceship[0], spaceship[1]),
-                             (spaceship[0] + 3 * ux * xy ** 0.6, spaceship[1] + 3 * uy * xy ** 0.6))
-            pygame.draw.line(background_image, (255, 102, 0), (spaceship[0], spaceship[1]),
+            pygame.draw.circle(window, (0, 120, 30),
+                               (portal[0], portal[1]), portal[2])
+            pygame.draw.line(window, (255, 255, 0),
+                             (spaceship[0], spaceship[1]),
+                             (spaceship[0] + 3 * ux * xy ** 0.6,
+                              spaceship[1] + 3 * uy * xy ** 0.6))
+            pygame.draw.line(background_image, (255, 102, 0),
+                             (spaceship[0], spaceship[1]),
                              (spaceship[0] + ux, spaceship[1] + uy))
 
             pygame.display.update()
             m = getneareststar(spaceship, stars, l)
             star = stars[m]  # find nearest star
-            F = getForceProjections(spaceship[0], spaceship[1], spaceship[2], spaceship[3], star[0], star[1],
+            F = getForceProjections(spaceship[0], spaceship[1], spaceship[2],
+                                    spaceship[3], star[0], star[1],
                                     star[3])  # get projections
-            coord = getShipNextState(spaceship[0], spaceship[1], spaceship[2], spaceship[3], F[0],
+            coord = getShipNextState(spaceship[0], spaceship[1], spaceship[2],
+                                     spaceship[3], F[0],
                                      F[1])  # get new coordinates and velocities
+            # Change old coordinates into new coordinates
             spaceship[0] = coord[0]
-            spaceship[1] = coord[1]  # change old coordinates into new coordinates
+            spaceship[1] = coord[1]
             spaceship[2] = coord[2]
             spaceship[3] = coord[3]
 
@@ -134,24 +143,26 @@ def chooselevel(p):
                                 star[2] -= 6
                             click += 1  # change mass if it is necessary
 
-
             clock.tick(60)
+
 
 # Menu
 class Menu:
-    def __init__(self, clauses=[(150, 250, u'Clause', (25, 25, 112), (99, 184, 255), 1)],
-                 states = [(100, 0, u'Level 1', (25, 25, 112), (99, 184, 255), 0)],
-                 buttons = [(200, 200, 'Retry', (25, 25, 112), (99, 184, 255), 0)]):
-
+    def __init__(self, clauses=(150, 250, u'Clause', (25, 25, 112),
+                                (99, 184, 255), 1),
+                 states=(100, 0, u'Level 1', (25, 25, 112), (99, 184, 255), 0),
+                 buttons=(200, 200, 'Retry', (25, 25, 112), (99, 184, 255), 0)):
         self.clauses = clauses
         self.states = states
         self.buttons = buttons
+
     def rendermenu(self, surface, font, num_clause):
         for i in self.clauses:
             if num_clause == i[5]:
                 surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
             else:
                 surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
+
     def menu(self):
         Planet_surf = pygame.image.load('')
         done = True
@@ -163,7 +174,7 @@ class Menu:
             screen.fill((0, 100, 200))
             mp = pygame.mouse.get_pos()
             for i in self.clauses:
-                if i[0] < mp[0] and mp[0] < i[0] + 550 and mp[1] > i[1] and mp[1] < i[1] + 300:
+                if i[0] < mp[0] < i[0] + 550 and i[1] < mp[1] < i[1] + 300:
                     clause = i[5]
             self.rendermenu(screen, font_menu, clause)
             for e in pygame.event.get():
@@ -180,7 +191,8 @@ class Menu:
             window.blit(screen, (0, 0))
             window.blit(Planet_surf, Planet_rect)
             pygame.display.flip()
-#Levels in menu
+
+    # Levels in menu
     def renderlevels(self, surface, font, num_state):
         for i in self.states:
             if num_state == i[5]:
@@ -197,7 +209,7 @@ class Menu:
             screen.fill((255, 255, 255))
             mp = pygame.mouse.get_pos()
             for i in self.states:
-                if i[0] < mp[0] and mp[0] < i[0] + 200 and mp[1] > i[1] and mp[1] < i[1] + 50:
+                if i[0] < mp[0] < i[0] + 200 and i[1] < mp[1] < i[1] + 50:
                     state = i[5]
             self.renderlevels(screen, font_menu, state)
             for e in pygame.event.get():
@@ -215,7 +227,8 @@ class Menu:
             window.blit(screen, (0, 0))
             window.blit(Planet2, Planet1)
             pygame.display.flip()
-#Pause menu
+
+    # Pause menu
     def renderpause(self, surface, font, num_button):
         for i in self.buttons:
             if num_button == i[5]:
@@ -231,7 +244,7 @@ class Menu:
             screen.fill((255, 255, 255))
             mp = pygame.mouse.get_pos()
             for i in self.buttons:
-                if i[0] < mp[0] and mp[0] < i[0] + 400 and mp[1] > i[1] and mp[1] < i[1] + 400:
+                if i[0] < mp[0] < i[0] + 400 and i[1] < mp[1] < i[1] + 400:
                     button = i[5]
             self.renderpause(screen, font_menu, button)
             for e in pygame.event.get():
@@ -246,13 +259,13 @@ class Menu:
             window.blit(screen, (0, 0))
             pygame.display.flip()
 
-#Настройка звука
+
+# Настройка звука
 pygame.mixer.pre_init(44100, -16, 1, 100)
 pygame.mixer.init()
 
 sound = pygame.mixer.Sound('starwars.mp3')
 sound.play(-1)
-
 
 game = Menu(clauses, states, buttons)
 game.menu()
