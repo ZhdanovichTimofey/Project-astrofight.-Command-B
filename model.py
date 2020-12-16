@@ -96,7 +96,7 @@ class Node:
         """
         _match = regex.search(object_str)
         return _match.group()
-
+    
 
 class Graph:
     """
@@ -136,11 +136,18 @@ class Graph:
         """
         return re.compile(template)
 
+    def is_neighbours (self, stell:Node, step_name:str):
+        for i in stell.neighbours:
+            if step_name in self.constellations[i].names:
+                return True
+        return False
 
-'''
+
 G = Graph('Data.txt')
-print(G.constellations['Crv'].names)
-print(G.constellations['Crv'].mark)
-G.constellations['Crv'].mark = 1
-print(G.constellations['Crv'].mark)       
-'''
+print(G.constellations['And'].names)
+print(G.constellations['And'].mark)
+G.constellations['And'].mark = 1
+print(G.constellations['And'].mark)     
+A = G.constellations['And']
+print(G.is_neighbours(A, 'Треугольник'))
+
