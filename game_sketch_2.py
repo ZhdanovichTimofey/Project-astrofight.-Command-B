@@ -24,7 +24,7 @@ clauses = [(350, 260, u'Play', (11, 0, 77), (250, 250, 30), 0),
 states = [(100, 50, u'Master', (25, 25, 112), (99, 184, 255), 0),
           (120, 120, u'Beginner', (25, 25, 112), (99, 184, 255), 1)]
 buttons = [(50, 600, u'Menu', (11, 0, 77), (250, 250, 30), 0),
-           (2000, 2000, 'Retry', (25, 25, 112), (99, 184, 255), 1)]
+           (150, 600, 'Retry', (0, 0, 0), (0, 0, 0), 1)]
 
 
 class level1:
@@ -164,16 +164,16 @@ class Menu:
         self.states = states
         self.buttons = buttons
 
-    def rendermenu(self, surface, font, num_clause):
-        for i in self.clauses:
-            if num_clause == i[5]:
+    def renderrul(self, surface, font, num_buttons):
+        for i in self.buttons:
+            if num_buttons == i[5]:
                 surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
             else:
                 surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
 
-    def renderrul(self, surface, font, num_buttons):
-        for i in self.buttons:
-            if num_buttons == i[5]:
+    def rendermenu(self, surface, font, num_clause):
+        for i in self.clauses:
+            if num_clause == i[5]:
                 surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
             else:
                 surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
@@ -197,6 +197,8 @@ class Menu:
                 if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                     if button == 0:
                         game.menu()
+                    elif button == 1:
+                        done = True
             window.blit(screen, (0, 0))
             pygame.display.flip()
 
@@ -229,6 +231,7 @@ class Menu:
             window.blit(screen, (0, 0))
             window.blit(info, (70, 0))
             pygame.display.flip()
+
 #Levels in menu
     def renderlevels(self, surface, font, num_state):
         for i in self.states:
