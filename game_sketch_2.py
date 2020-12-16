@@ -299,7 +299,7 @@ class Menu:
 pygame.mixer.pre_init(44100, -16, 1, 100)
 pygame.mixer.init()
 
-sound = pygame.mixer.Sound('starwars.mp3')
+sound = pygame.mixer.Sound('starwars.ogg')
 sound.play(-1)
 
 
