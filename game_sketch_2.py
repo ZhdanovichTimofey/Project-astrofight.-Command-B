@@ -183,18 +183,19 @@ class Menu:
         font_rules = pygame.font.Font(None, 50)
         pygame.key.set_repeat(0, 0)
         pygame.mouse.set_visible(True)
-        button = 0
         while done:
+            button = 1
             screen = pygame.image.load('rule.jpg')
             mp = pygame.mouse.get_pos()
             for i in self.buttons:
-                if i[0] < mp[0] and mp[0] < i[0] + 155 and mp[1] > i[1] and mp[1] < i[1] + 50:
+                if (i[0] < mp[0] < i[0] + 155) and (i[1] < mp[1] < i[1] + 50):
                     button = i[5]
             self.renderrul(screen, font_rules, button)
             for e in pygame.event.get():
                 if e.type == pygame.QUIT:
                     sys.exit()
                 if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
+                    print(mp)
                     if button == 0:
                         game.menu()
                     elif button == 1:
