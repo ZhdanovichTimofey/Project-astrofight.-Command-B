@@ -11,35 +11,37 @@ mixer.init()
 pygame.init()
 
 window = pygame.display.set_mode((800, 670))
-
-screen = pygame.Surface((1530, 830))
-
-
+screen = pygame.Surface((800, 670))
 clock = pygame.time.Clock()
-
 
 pygame.display.set_caption('ASTROWARS')
 
 # Menu Description
-clauses = [(100, 0, u'Play', (25, 25, 112), (99, 184, 255), 0),
-           (150, 250, u'Rules', (25, 25, 112), (99, 184, 255), 1),
-           (120, 500, 'Score', (25, 25, 112), (99, 184, 255), 2),
-           (180, 500, 'Exit', (25, 25, 112), (99, 184, 255), 2)]
+clauses = [(350, 260, u'Play', (11, 0, 77), (250, 250, 30), 0),
+          (350, 300, u'Rules', (11, 0, 77), (250, 250, 30), 1),
+          (350, 340, u'Score', (11, 0, 77), (250, 250, 30), 2),
+          (350, 380, u'Exit', (11, 0, 77), (250, 250, 30), 3)]
 states = [(100, 50, u'Master', (25, 25, 112), (99, 184, 255), 0),
           (120, 120, u'Beginner', (25, 25, 112), (99, 184, 255), 1)]
-buttons = [(200, 200, 'Retry', (25, 25, 112), (99, 184, 255), 0),
-           (600, 600, 'Menu', (25, 25, 112), (99, 184, 255), 1)]
+buttons = [(50, 600, u'Menu', (11, 0, 77), (250, 250, 30), 0),
+           (2000, 2000, 'Retry', (25, 25, 112), (99, 184, 255), 1)]
 
 
 class level1:
     screen = pygame.image.load('starsky.jpg')
     info = pygame.image.load('name.png')
+    window.blit(screen, (0, 150))
+    window.blit(info, (70, 0))
+    pygame.display.flip()
 
 
 
 class level2:
     screen = pygame.image.load('starsky.jpg')
     info = pygame.image.load('name.png')
+    window.blit(screen, (0, 150))
+    window.blit(info, (70, 0))
+    pygame.display.flip()
 
 
 levels = [level1, level2]
@@ -47,6 +49,9 @@ t = 100
 dm = 100000
 dr = 1
 coord = [0] * 4
+
+
+
 
 
 def chooselevel(p):
@@ -153,28 +158,60 @@ def chooselevel(p):
 class Menu:
     def __init__(self, clauses=[(150, 250, u'Clause', (25, 25, 112), (99, 184, 255), 1)],
                  states = [(100, 0, u'Level 1', (25, 25, 112), (99, 184, 255), 0)],
-                 buttons = [(200, 200, 'Retry', (25, 25, 112), (99, 184, 255), 0)]):
+                 buttons = [(50, 600, 'Menu', (11, 0, 77), (250, 250, 30), 0)]):
 
         self.clauses = clauses
         self.states = states
         self.buttons = buttons
+
     def rendermenu(self, surface, font, num_clause):
         for i in self.clauses:
             if num_clause == i[5]:
                 surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
             else:
                 surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
-    def menu(self):
-        Planet_surf = pygame.image.load("starsky.jpg")
-        done = True
 
+    def renderrul(self, surface, font, num_buttons):
+        for i in self.buttons:
+            if num_buttons == i[5]:
+                surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
+            else:
+                surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
+
+    def rules(self):
+        done = True
+        font_rules = pygame.font.Font(None, 50)
+        pygame.key.set_repeat(0, 0)
+        pygame.mouse.set_visible(True)
+        button = 0
+        while done:
+            screen = pygame.image.load('rule.jpg')
+            mp = pygame.mouse.get_pos()
+            for i in self.buttons:
+                if i[0] < mp[0] and mp[0] < i[0] + 155 and mp[1] > i[1] and mp[1] < i[1] + 50:
+                    button = i[5]
+            self.renderrul(screen, font_rules, button)
+            for e in pygame.event.get():
+                if e.type == pygame.QUIT:
+                    sys.exit()
+                if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
+                    if button == 0:
+                        game.menu()
+            window.blit(screen, (0, 0))
+            pygame.display.flip()
+
+    def menu(self):
+        done = True
+        font_menu = pygame.font.Font(None, 50)
+        pygame.key.set_repeat(0, 0)
+        pygame.mouse.set_visible(True)
         clause = 0
         while done:
-            screen.fill((0, 100, 200))
+            screen = pygame.image.load('starsky.jpg')
+            info = pygame.image.load('name.png')
             mp = pygame.mouse.get_pos()
-            font_menu = pygame.font.Font('FagoCoTf-Black.otf', 200)
             for i in self.clauses:
-                if i[0] < mp[0] and mp[0] < i[0] + 550 and mp[1] > i[1] and mp[1] < i[1] + 300:
+                if i[0] < mp[0] and mp[0] < i[0] + 155 and mp[1] > i[1] and mp[1] < i[1] + 50:
                     clause = i[5]
             self.rendermenu(screen, font_menu, clause)
             for e in pygame.event.get():
@@ -184,40 +221,40 @@ class Menu:
                     if clause == 0:
                         chooselevel(0)
                     elif clause == 1:
-                        sys.exit()
+                        self.rules()
                     elif clause == 2:
                         game.levels()
-            Planet_rect = Planet_surf.get_rect(bottomright=(1700, 900))
+                    elif clause == 3:
+                        sys.exit()
             window.blit(screen, (0, 0))
-            window.blit(Planet_surf, Planet_rect)
+            window.blit(info, (70, 0))
             pygame.display.flip()
 #Levels in menu
     def renderlevels(self, surface, font, num_state):
         for i in self.states:
-            if num_state == i[5]:
-                surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
+            if num_state == i[1]:
+                surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1] - 150))
             else:
-                surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
+                surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1] - 150))
 
     def levels(self):
         end = True
         font_menu = pygame.font.Font('FagoCoTf-Black.otf', 70)
-        Planet2 = pygame.image.load('Planet-White.bmp')
         state = 0
         while end:
             screen.fill((255, 255, 255))
             mp = pygame.mouse.get_pos()
             for i in self.states:
                 if i[0] < mp[0] and mp[0] < i[0] + 200 and mp[1] > i[1] and mp[1] < i[1] + 50:
-                    state = i[5]
+                    state = i[1]
             self.renderlevels(screen, font_menu, state)
             for e in pygame.event.get():
                 if e.type == pygame.QUIT:
                     sys.exit()
                 if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                     for i in states:
-                        if state == i[5] and state != 10:
-                            p = i[5]
+                        if state == i[1] and state != 10:
+                            p = i[1]
                             chooselevel(p)
                         if state == 10:
                             game.menu()
@@ -236,7 +273,7 @@ class Menu:
 
     def pause(self, q):
         stop = True
-        font_menu = pygame.font.Font('FagoCoTf-Black.otf', 200)
+        font_menu = pygame.font.Font(None, 50)
         button = 0
         while stop:
             screen.fill((255, 255, 255))
@@ -256,6 +293,7 @@ class Menu:
 
             window.blit(screen, (0, 0))
             pygame.display.flip()
+
 
 #Настройка звука
 pygame.mixer.pre_init(44100, -16, 1, 100)
