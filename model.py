@@ -4,7 +4,7 @@
 AttributeError - сделать exception
 is_neighbours - реализовать через exception в мейне, так сильно быстрее
 
-
+branch test
 '''
 
 # model.py
