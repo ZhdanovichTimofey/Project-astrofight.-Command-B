@@ -22,7 +22,7 @@ buttons = [(50, 600, u'Menu', (11, 0, 77), (250, 250, 30), 0),
            (150, 600, 'Retry', (0, 0, 0), (0, 0, 0), 1)]
 
 
-def level1():
+def level_master():
     screen = pygame.image.load('starsky.jpg')
     info = pygame.image.load('name.png')
     window.blit(screen, (0, 150))
@@ -30,58 +30,17 @@ def level1():
     pygame.display.flip()
 
 
-def level2():
+def level_beginner():
     screen = pygame.image.load('starsky.jpg')
     info = pygame.image.load('name.png')
     window.blit(screen, (0, 150))
     window.blit(info, (70, 0))
     pygame.display.flip()
-
-
-levels = [level1, level2]
-
-# Choose level (mode)
-def renderchoose(surface, font, num_states):
-    for i in states:
-        if num_states == i[5]:
-            surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
-        else:
-            surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
-
-
-def chooselevel():
-    done = True
-    font_choose = pygame.font.Font(None, 50)
-    pygame.key.set_repeat(0, 0)
-    pygame.mouse.set_visible(True)
-    state = 0
-    while done:
-        screen = pygame.image.load('choose.jpg')
-        mp = pygame.mouse.get_pos()
-        for i in states:
-            if (i[0] < mp[0] < i[0] + 155) and (i[1] < mp[1] < i[1] + 50):
-                state = i[5]
-        renderchoose(screen, font_choose, state)
-        for e in pygame.event.get():
-            if e.type == pygame.QUIT:
-                sys.exit()
-            if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
-                if state == 0:
-                    level1()
-                elif state == 1:
-                    level2()
-                elif state == 2:
-                    game.menu()
-
-        window.blit(screen, (0, 0))
-        pygame.display.flip()
 
 
 # Menu
 class Menu:
-    def __init__(self, clauses=[(150, 250, u'Clause', (25, 25, 112), (99, 184, 255), 1)],
-                 states = [(100, 0, u'Beginner', (25, 25, 112), (99, 184, 255), 0)],
-                 buttons = [(50, 600, 'Menu', (11, 0, 77), (250, 250, 30), 0)]):
+    def __init__(self, clauses, states, buttons):
 
         self.clauses = clauses
         self.states = states
@@ -90,13 +49,6 @@ class Menu:
     def renderrul(self, surface, font, num_buttons):
         for i in self.buttons:
             if num_buttons == i[5]:
-                surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
-            else:
-                surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
-
-    def rendermenu(self, surface, font, num_clause):
-        for i in self.clauses:
-            if num_clause == i[5]:
                 surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
             else:
                 surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
@@ -126,6 +78,13 @@ class Menu:
             window.blit(screen, (0, 0))
             pygame.display.flip()
 
+    def rendermenu(self, surface, font, num_clause):
+        for i in self.clauses:
+            if num_clause == i[5]:
+                surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
+            else:
+                surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
+
     def menu(self):
         done = True
         font_menu = pygame.font.Font(None, 50)
@@ -145,13 +104,47 @@ class Menu:
                     sys.exit()
                 if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                     if clause == 0:
-                        chooselevel()
+                        self.chooselevel()
                     elif clause == 1:
                         self.rules()
                     elif clause == 2:
                         sys.exit()
             window.blit(screen, (0, 0))
             window.blit(info, (70, 0))
+            pygame.display.flip()
+
+    # Choose level (mode)
+    def renderchoose(self, surface, font, num_states):
+        for i in self.states:
+            if num_states == i[5]:
+                surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
+            else:
+                surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
+
+    def chooselevel(self):
+        done = True
+        font_choose = pygame.font.Font(None, 50)
+        pygame.key.set_repeat(0, 0)
+        pygame.mouse.set_visible(True)
+        state = 0
+        while done:
+            screen = pygame.image.load('choose.jpg')
+            mp = pygame.mouse.get_pos()
+            for i in self.states:
+                if (i[0] < mp[0] < i[0] + 155) and (i[1] < mp[1] < i[1] + 50):
+                    state = i[5]
+            self.renderchoose(screen, font_choose, state)
+            for e in pygame.event.get():
+                if e.type == pygame.QUIT:
+                    sys.exit()
+                if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
+                    if state == 0:
+                        level_beginner()
+                    elif state == 1:
+                        level_master()
+                    elif state == 2:
+                        game.menu()
+            window.blit(screen, (0, 0))
             pygame.display.flip()
 
 # Sound
