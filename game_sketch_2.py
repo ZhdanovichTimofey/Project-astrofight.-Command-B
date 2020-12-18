@@ -26,29 +26,33 @@ buttons = [(50, 600, u'Menu', (11, 0, 77), (250, 250, 30), 0),
 
 
 class Player:
+    """
+    Класс отвечает за свойства игроков
+    """
     def __init__(self, turn):
         self.score = 0
         self.mistakes = 3
         self.turn = turn
-        self.path = model.np.array([], dtype = '<U13')
-
-def level_beginner():
-    screen = pygame.image.load('starsky.jpg')
-    info = pygame.image.load('name.png')
-    window.blit(screen, (0, 150))
-    window.blit(info, (70, 0))
-    pygame.display.flip()
+        self.path = model.np.array([], dtype='<U13')
 
 
-# Menu
-class Menu:
+class Game:
+    """
+    Класс отвечает за интерфейс игры
+    """
     def __init__(self, clauses, states, buttons):
-
         self.clauses = clauses
         self.states = states
         self.buttons = buttons
 
     def renderrul(self, surface, font, num_buttons):
+        """
+        Метод отвечает за отображение кнопок в разделе правил
+        :param surface: место отображения
+        :param font: шрифт
+        :param num_buttons: отвечает за цвет кнопок
+        :return:
+        """
         for i in self.buttons:
             if num_buttons == i[5]:
                 surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
@@ -56,6 +60,10 @@ class Menu:
                 surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
 
     def rules(self):
+        """
+        Метод отвечает за отображение окна с правилами
+        :return:
+        """
         done = True
         font_rules = pygame.font.Font(None, 50)
         pygame.key.set_repeat(0, 0)
@@ -82,6 +90,13 @@ class Menu:
             pygame.display.flip()
 
     def rendermenu(self, surface, font, num_clause):
+        """
+        Метод отвечает за отображение кнопок в разделе меню
+        :param surface: место отображения
+        :param font: шрифт
+        :param num_clause: отвчает за цвет кнопок
+        :return:
+        """
         for i in self.clauses:
             if num_clause == i[5]:
                 surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
@@ -89,6 +104,10 @@ class Menu:
                 surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
 
     def menu(self):
+        """
+        Метод отвечает за отображение окна с меню
+        :return:
+        """
         done = True
         font_menu = pygame.font.Font(None, 50)
         pygame.key.set_repeat(0, 0)
@@ -117,47 +136,23 @@ class Menu:
             window.blit(screen, (0, 0))
             window.blit(info, (70, 0))
             pygame.display.flip()
-
-    # Choose level (mode)
-    def renderchoose(self, surface, font, num_states):
-        for i in self.states:
-            if num_states == i[5]:
-                surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
-            else:
-                surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
-
-    def chooselevel(self):
-        done = True
-        font_choose = pygame.font.Font(None, 50)
-        pygame.key.set_repeat(0, 0)
-        pygame.mouse.set_visible(True)
-        state = 0
-        while done:
-            screen = pygame.image.load('choose.jpg')
-            mp = pygame.mouse.get_pos()
-            for i in self.states:
-                if (i[0] < mp[0] < i[0] + 155) and (i[1] < mp[1] < i[1] + 50):
-                    state = i[5]
-            self.renderchoose(screen, font_choose, state)
-            for e in pygame.event.get():
-                if e.type == pygame.QUIT:
-                    sys.exit()
-                if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
-                    if state == 0:
-                        self.level_beginner()
-                    elif state == 1:
-                        self.level_master()
-                    elif state == 2:
-                        game.menu()
-            window.blit(screen, (0, 0))
-            pygame.display.flip()
     
-    def _win_blit(self, window, master_file_name, name_file_name, start, stop, lasts):
+    def _win_blit(self, window, master_file_name, name_file_name, start, stop,
+                  lasts):
+        """
+
+        :param window:
+        :param master_file_name:
+        :param name_file_name:
+        :param start:
+        :param stop:
+        :param lasts:
+        :return:
+        """
         screen = pygame.image.load(master_file_name)
         info = pygame.image.load(name_file_name)
         window.blit(screen, (0, 150))
         window.blit(info, (70, 0))
-        
         f = pygame.font.Font(None, 48)
         start_text = f.render(start, True, (251, 243, 0))
         window.blit(start_text, (150, 186))
@@ -175,6 +170,13 @@ class Menu:
             pass
         
     def _get_text(self, lasts, start_3str, stop_3str):
+        """
+        Метод отвечает за возможность ввода текста в режиме игры
+        :param lasts:
+        :param start_3str:
+        :param stop_3str:
+        :return:
+        """
         applicant = ''
         font = pygame.font.Font(None, 52)
         done = False
@@ -191,7 +193,8 @@ class Menu:
                         return applicant
                 elif event.type == pygame.QUIT:
                     return 'EXIT'
-            self._win_blit(window, 'master.jpg', 'name.png', start_3str, stop_3str, lasts)
+            self._win_blit(window, 'master.jpg', 'name.png', start_3str,
+                           stop_3str, lasts)
             applicant_text = font.render(applicant, True, (251, 243, 0))
             rect = applicant_text.get_rect()
             rect.center = (400, 620)
@@ -205,15 +208,20 @@ class Menu:
         pygame.display.update()
         clock.tick(1)
     
-    def level_master(self, file_name:str):
+    def level_master(self, file_name: str):
+        """
+        Метод отвечает за отображение окна с режимом игры
+        :param file_name:
+        :return:
+        """
         stell_graph = model.Graph(file_name)
         start_3str, stop_3str = stell_graph.rnd_start_stop()
         current = stell_graph.constellations[start_3str]
         stop = stell_graph.constellations[stop_3str]
-        
         window = pygame.display.set_mode((800, 670))
         pygame.display.set_caption('ASTROWARS')        
-        self._win_blit(window, 'master.jpg', 'name.png', start_3str, stop_3str, [])
+        self._win_blit(window, 'master.jpg', 'name.png', start_3str,
+                       stop_3str, [])
         pygame.display.flip()
         clock = pygame.time.Clock()
         finished = False
@@ -246,8 +254,8 @@ class Menu:
                     clock.tick(1)
                 else:
                     current = applicant
-                    current_player.path = model.np.append(current_player.path, 
-                                            current.names[0])
+                    current_player.path = model.np.append(current_player.path,
+                                                          current.names[0])
                     player1.turn = not player1.turn
                     player2.turn = not player2.turn
                     print('Meow')
@@ -279,12 +287,12 @@ class Menu:
                 if event.type == pygame.QUIT:
                     finished = True
 
+
 # Sound
 pygame.mixer.pre_init(44100, -16, 1, 100)
 pygame.mixer.init()
 sound = pygame.mixer.Sound('starwars.ogg')
 sound.play(-1)
 
-
-game = Menu(clauses, states, buttons)
+game = Game(clauses, states, buttons)
 game.menu()
