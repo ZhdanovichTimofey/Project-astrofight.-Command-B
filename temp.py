@@ -22,7 +22,6 @@ current = stell_graph.constellations[start_3str]
 stop = stell_graph.constellations[stop_3str]
 
 window = pygame.display.set_mode((800, 670))
-screen = pygame.Surface((800, 670))
 
 pygame.display.set_caption('ASTROWARS')
 
@@ -44,11 +43,11 @@ def win_blit(window, master_file_name, name_file_name, start, stop, lasts):
         pass
     try:
         last2 = f.render(lasts[1], True, (251, 243, 0))
-        window.blit(last2, (500, 370))
+        window.blit(last2, (530, 370))
     except IndexError:
         pass
 
-def get_text(lasts):
+def get_text(lasts, start_3str, stop_3str):
     applicant = ''
     font = pygame.font.Font(None, 52)
     done = False
@@ -101,7 +100,7 @@ while not finished:
         current_player = player1
     else:
         current_player = player2
-    applicant_str = get_text(lasts)
+    applicant_str = get_text(lasts, start_3str, stop_3str)
     if applicant_str == 'EXIT':
         finished = True
         continue
@@ -126,20 +125,20 @@ while not finished:
     if not current_player.mistakes:
         if current_player is player1:
             special_event(window, 'pl2win.jpg')
-            clock.tick(0.1)
+            clock.tick(0.2)
             finished = 1
         else:
             special_event(window, 'pl1win.jpg')
-            clock.tick(0.1)
+            clock.tick(0.2)
             finished = 1
     if current is stop:
         if current_player is player1:
             special_event(window, 'pl1win.jpg')
-            clock.tick(0.1)
+            clock.tick(0.2)
             finished = 1
         else:
             special_event(window, 'pl2win.jpg')
-            clock.tick(0.1)
+            clock.tick(0.2)
             finished = 1
     pygame.display.update()
     clock.tick(FPS)
