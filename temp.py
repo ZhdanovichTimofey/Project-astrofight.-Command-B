@@ -19,6 +19,7 @@ FPS = 20
 stell_graph = model.Graph('Data.txt')
 start_3str, stop_3str = stell_graph.rnd_start_stop()
 current = stell_graph.constellations[start_3str]
+stop = stell_graph.constellations[stop_3str]
 
 window = pygame.display.set_mode((800, 670))
 screen = pygame.Surface((800, 670))
@@ -112,7 +113,15 @@ while not finished:
             special_event(window, 'pl1win.jpg')
             clock.tick(0.1)
             finished = 1
-    
+    if current is stop:
+        if current_player is player1:
+            special_event(window, 'pl1win.jpg')
+            clock.tick(0.1)
+            finished = 1
+        else:
+            special_event(window, 'pl2win.jpg')
+            clock.tick(0.1)
+            finished = 1
     pygame.display.update()
     clock.tick(FPS)
     for event in pygame.event.get():
