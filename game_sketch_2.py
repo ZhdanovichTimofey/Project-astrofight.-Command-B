@@ -70,7 +70,7 @@ class Game:
         pygame.mouse.set_visible(True)
         while done:
             button = 1
-            screen = pygame.image.load('rules.jpg')
+            screen = pygame.image.load('rule.jpg')
             mp = pygame.mouse.get_pos()
             for i in self.buttons:
                 if (i[0] < mp[0] < i[0] + 155) and (i[1] < mp[1] < i[1] + 50):
