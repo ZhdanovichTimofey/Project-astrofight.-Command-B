@@ -1,14 +1,12 @@
-from tkinter import *
 import pygame
-import time
-import math
 import sys
-import random
 from pygame import mixer
+import model
+import pygame.locals
+
 mixer.init()
-
-
 pygame.init()
+FPS = 30
 
 window = pygame.display.set_mode((800, 670))
 screen = pygame.Surface((800, 670))
@@ -18,147 +16,33 @@ pygame.display.set_caption('ASTROWARS')
 
 # Menu Description
 clauses = [(350, 260, u'Play', (11, 0, 77), (250, 250, 30), 0),
-          (350, 300, u'Rules', (11, 0, 77), (250, 250, 30), 1),
-          (350, 340, u'Score', (11, 0, 77), (250, 250, 30), 2),
-          (350, 380, u'Exit', (11, 0, 77), (250, 250, 30), 3)]
-states = [(100, 50, u'Master', (25, 25, 112), (99, 184, 255), 0),
-          (120, 120, u'Beginner', (25, 25, 112), (99, 184, 255), 1)]
+           (350, 300, u'Rules', (11, 0, 77), (250, 250, 30), 1),
+           (350, 340, u'Exit', (11, 0, 77), (250, 250, 30), 2)]
+states = [(300, 300, u'Beginner', (11, 0, 77), (250, 250, 30), 0),
+          (300, 340, u'Master', (11, 0, 77), (250, 250, 30), 1),
+          (50, 600, u'Menu', (11, 0, 77), (250, 250, 30), 2)]
 buttons = [(50, 600, u'Menu', (11, 0, 77), (250, 250, 30), 0),
            (150, 600, 'Retry', (0, 0, 0), (0, 0, 0), 1)]
 
 
-class level1:
+class Player:
+    def __init__(self, turn):
+        self.score = 0
+        self.mistakes = 3
+        self.turn = turn
+        self.path = model.np.array([], dtype = '<U13')
+
+def level_beginner():
     screen = pygame.image.load('starsky.jpg')
     info = pygame.image.load('name.png')
     window.blit(screen, (0, 150))
     window.blit(info, (70, 0))
     pygame.display.flip()
 
-
-
-class level2:
-    screen = pygame.image.load('starsky.jpg')
-    info = pygame.image.load('name.png')
-    window.blit(screen, (0, 150))
-    window.blit(info, (70, 0))
-    pygame.display.flip()
-
-
-levels = [level1, level2]
-t = 100
-dm = 100000
-dr = 1
-coord = [0] * 4
-
-
-
-
-
-def chooselevel(p):
-    background_image = pygame.image.load("starsky.jpg").convert()
-    while p <= 5:
-        done = True
-        l = levels[p]
-        spaceship = l.ship[:]
-        stars = l.stars[:]
-        stars = l.stars
-        n = l.number
-        portal = l.end_portal
-        ship_image = l.ship_image
-
-        click = 0
-        while done:
-
-            Dist = dist(spaceship, portal)
-            for e in pygame.event.get():
-                if e.type == pygame.QUIT:
-                    sys.exit()
-                if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
-                    game.pause(p)
-
-            if Dist < portal[2] + spaceship[4]:
-                background_image = pygame.image.load("starsky.jpg").convert()
-                done = False
-                p += 1
-                print(p)
-
-            if distance_betwin_s_nstar(spaceship, stars, l) == 0:
-                background_image = pygame.image.load("starsky.jpg").convert()
-                for i in range(n):
-                    star = stars[i]
-                    m = l.m
-                    star[3] = m[i]
-                    star[2] = 50
-                    star[4] = 20
-
-                game.pause(p)
-
-            window.blit(screen, (0, 0))
-            window.blit(background_image, [0, 0])
-
-            k = int(spaceship[0])
-            b = int(spaceship[1])
-            xy = ((spaceship[2]) ** 2 + (spaceship[3]) ** 2) ** 0.5
-            ux = spaceship[2] / xy
-            uy = spaceship[3] / xy
-
-            for i in range(n):  # drawing all stars
-                star = stars[i]
-                image = images[i]
-                image = pygame.transform.scale(image, (star[2], star[2]))
-                imageT = image.get_rect(center=(star[0], star[1]))
-                window.blit(image, imageT)
-
-            image = l.ship_image
-            imageI = pygame.image.load(image)
-            imageI = pygame.transform.scale(imageI, (40, 40))
-            imageT = imageI.get_rect(center=(spaceship[0], spaceship[1]))
-
-            window.blit(window, (0, 0))
-            window.blit(imageI, imageT)
-
-            # drawing spaceship
-            pygame.draw.circle(window, (0, 120, 30), (portal[0], portal[1]), portal[2])
-            pygame.draw.line(window, (255, 255, 0), (spaceship[0], spaceship[1]),
-                             (spaceship[0] + 3 * ux * xy ** 0.6, spaceship[1] + 3 * uy * xy ** 0.6))
-            pygame.draw.line(background_image, (255, 102, 0), (spaceship[0], spaceship[1]),
-                             (spaceship[0] + ux, spaceship[1] + uy))
-
-            pygame.display.update()
-            m = getneareststar(spaceship, stars, l)
-            star = stars[m]  # find nearest star
-            F = getForceProjections(spaceship[0], spaceship[1], spaceship[2], spaceship[3], star[0], star[1],
-                                    star[3])  # get projections
-            coord = getShipNextState(spaceship[0], spaceship[1], spaceship[2], spaceship[3], F[0],
-                                     F[1])  # get new coordinates and velocities
-            spaceship[0] = coord[0]
-            spaceship[1] = coord[1]  # change old coordinates into new coordinates
-            spaceship[2] = coord[2]
-            spaceship[3] = coord[3]
-
-            if findcursorposition(spaceship, stars, l):
-                for i in pygame.event.get():
-                    if i.type == pygame.MOUSEBUTTONDOWN:
-                        if i.button == 1:
-                            star[3] += dm
-                            star[4] += dr
-                            star[2] += 6
-                            click += 1
-                        elif i.button == 3:
-                            star[3] -= dm
-                            if star[4] >= 20:
-                                star[4] -= dr
-                                star[2] -= 6
-                            click += 1  # change mass if it is necessary
-
-
-            clock.tick(60)
 
 # Menu
 class Menu:
-    def __init__(self, clauses=[(150, 250, u'Clause', (25, 25, 112), (99, 184, 255), 1)],
-                 states = [(100, 0, u'Level 1', (25, 25, 112), (99, 184, 255), 0)],
-                 buttons = [(50, 600, 'Menu', (11, 0, 77), (250, 250, 30), 0)]):
+    def __init__(self, clauses, states, buttons):
 
         self.clauses = clauses
         self.states = states
@@ -171,13 +55,6 @@ class Menu:
             else:
                 surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
 
-    def rendermenu(self, surface, font, num_clause):
-        for i in self.clauses:
-            if num_clause == i[5]:
-                surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
-            else:
-                surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
-
     def rules(self):
         done = True
         font_rules = pygame.font.Font(None, 50)
@@ -185,7 +62,7 @@ class Menu:
         pygame.mouse.set_visible(True)
         while done:
             button = 1
-            screen = pygame.image.load('rule.jpg')
+            screen = pygame.image.load('rules.jpg')
             mp = pygame.mouse.get_pos()
             for i in self.buttons:
                 if (i[0] < mp[0] < i[0] + 155) and (i[1] < mp[1] < i[1] + 50):
@@ -193,7 +70,8 @@ class Menu:
             self.renderrul(screen, font_rules, button)
             for e in pygame.event.get():
                 if e.type == pygame.QUIT:
-                    sys.exit()
+                    done = 0
+                    continue
                 if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                     print(mp)
                     if button == 0:
@@ -202,6 +80,13 @@ class Menu:
                         done = True
             window.blit(screen, (0, 0))
             pygame.display.flip()
+
+    def rendermenu(self, surface, font, num_clause):
+        for i in self.clauses:
+            if num_clause == i[5]:
+                surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
+            else:
+                surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
 
     def menu(self):
         done = True
@@ -214,95 +99,189 @@ class Menu:
             info = pygame.image.load('name.png')
             mp = pygame.mouse.get_pos()
             for i in self.clauses:
-                if i[0] < mp[0] and mp[0] < i[0] + 155 and mp[1] > i[1] and mp[1] < i[1] + 50:
+                if (i[0] < mp[0] < i[0] + 155) and (i[1] < mp[1] < i[1] + 50):
                     clause = i[5]
             self.rendermenu(screen, font_menu, clause)
             for e in pygame.event.get():
                 if e.type == pygame.QUIT:
+                    pygame.quit()
                     sys.exit()
                 if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                     if clause == 0:
-                        chooselevel(0)
+                        self.level_master('Data.txt')
                     elif clause == 1:
                         self.rules()
                     elif clause == 2:
-                        game.levels()
-                    elif clause == 3:
+                        pygame.quit()
                         sys.exit()
             window.blit(screen, (0, 0))
             window.blit(info, (70, 0))
             pygame.display.flip()
 
-#Levels in menu
-    def renderlevels(self, surface, font, num_state):
+    # Choose level (mode)
+    def renderchoose(self, surface, font, num_states):
         for i in self.states:
-            if num_state == i[1]:
-                surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1] - 150))
-            else:
-                surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1] - 150))
-
-    def levels(self):
-        end = True
-        font_menu = pygame.font.Font('FagoCoTf-Black.otf', 70)
-        state = 0
-        while end:
-            screen.fill((255, 255, 255))
-            mp = pygame.mouse.get_pos()
-            for i in self.states:
-                if i[0] < mp[0] and mp[0] < i[0] + 200 and mp[1] > i[1] and mp[1] < i[1] + 50:
-                    state = i[1]
-            self.renderlevels(screen, font_menu, state)
-            for e in pygame.event.get():
-                if e.type == pygame.QUIT:
-                    sys.exit()
-                if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
-                    for i in states:
-                        if state == i[1] and state != 10:
-                            p = i[1]
-                            chooselevel(p)
-                        if state == 10:
-                            game.menu()
-
-            Planet1 = Planet2.get_rect(bottomright=(1500, 900))
-            window.blit(screen, (0, 0))
-            window.blit(Planet2, Planet1)
-            pygame.display.flip()
-#Pause menu
-    def renderpause(self, surface, font, num_button):
-        for i in self.buttons:
-            if num_button == i[5]:
+            if num_states == i[5]:
                 surface.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
             else:
                 surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
 
-    def pause(self, q):
-        stop = True
-        font_menu = pygame.font.Font(None, 50)
-        button = 0
-        while stop:
-            screen.fill((255, 255, 255))
+    def chooselevel(self):
+        done = True
+        font_choose = pygame.font.Font(None, 50)
+        pygame.key.set_repeat(0, 0)
+        pygame.mouse.set_visible(True)
+        state = 0
+        while done:
+            screen = pygame.image.load('choose.jpg')
             mp = pygame.mouse.get_pos()
-            for i in self.buttons:
-                if i[0] < mp[0] and mp[0] < i[0] + 400 and mp[1] > i[1] and mp[1] < i[1] + 400:
-                    button = i[5]
-            self.renderpause(screen, font_menu, button)
+            for i in self.states:
+                if (i[0] < mp[0] < i[0] + 155) and (i[1] < mp[1] < i[1] + 50):
+                    state = i[5]
+            self.renderchoose(screen, font_choose, state)
             for e in pygame.event.get():
                 if e.type == pygame.QUIT:
                     sys.exit()
                 if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
-                    if button == 0:
-                        chooselevel(q)
-                    if button == 1:
+                    if state == 0:
+                        self.level_beginner()
+                    elif state == 1:
+                        self.level_master()
+                    elif state == 2:
                         game.menu()
-
             window.blit(screen, (0, 0))
             pygame.display.flip()
+    
+    def _win_blit(self, window, master_file_name, name_file_name, start, stop, lasts):
+        screen = pygame.image.load(master_file_name)
+        info = pygame.image.load(name_file_name)
+        window.blit(screen, (0, 150))
+        window.blit(info, (70, 0))
+        
+        f = pygame.font.Font(None, 48)
+        start_text = f.render(start, True, (251, 243, 0))
+        window.blit(start_text, (150, 186))
+        stop_text = f.render(stop, True, (251, 243, 0))
+        window.blit(stop_text, (94, 237))
+        try:
+            last1 = f.render(lasts[0], True, (251, 243, 0))
+            window.blit(last1, (150, 370))
+        except IndexError:
+            pass
+        try:
+            last2 = f.render(lasts[1], True, (251, 243, 0))
+            window.blit(last2, (530, 370))
+        except IndexError:
+            pass
+        
+    def _get_text(self, lasts, start_3str, stop_3str):
+        applicant = ''
+        font = pygame.font.Font(None, 52)
+        done = False
+        while not done:
+            for event in pygame.event.get():
+                if event.type == pygame.locals.KEYDOWN:
+                    if event.unicode.isalpha():
+                        applicant += event.unicode
+                    elif event.key == pygame.locals.K_SPACE:
+                        applicant += ' '
+                    elif event.key == pygame.locals.K_BACKSPACE:
+                        applicant = applicant[:-1]
+                    elif event.key == pygame.locals.K_RETURN:
+                        return applicant
+                elif event.type == pygame.QUIT:
+                    return 'EXIT'
+            self._win_blit(window, 'master.jpg', 'name.png', start_3str, stop_3str, lasts)
+            applicant_text = font.render(applicant, True, (251, 243, 0))
+            rect = applicant_text.get_rect()
+            rect.center = (400, 620)
+            window.blit(applicant_text, rect)
+            clock.tick(FPS)
+            pygame.display.flip()
+        
+    def _special_event(self, window, file_name):
+        screen = pygame.image.load(file_name)
+        window.blit(screen, (0, 0))
+        pygame.display.update()
+        clock.tick(1)
+    
+    def level_master(self, file_name:str):
+        stell_graph = model.Graph(file_name)
+        start_3str, stop_3str = stell_graph.rnd_start_stop()
+        current = stell_graph.constellations[start_3str]
+        stop = stell_graph.constellations[stop_3str]
+        
+        window = pygame.display.set_mode((800, 670))
+        pygame.display.set_caption('ASTROWARS')        
+        self._win_blit(window, 'master.jpg', 'name.png', start_3str, stop_3str, [])
+        pygame.display.flip()
+        clock = pygame.time.Clock()
+        finished = False
+        player1 = Player(True)
+        player2 = Player(False)
+        while not finished:
+            lasts = []
+            try:
+                lasts.append(player1.path[len(player1.path) - 1])
+            except IndexError:
+                pass
+            try:
+                lasts.append(player2.path[len(player2.path) - 1])
+            except IndexError:
+                pass
+            current.mark = 1
+            if player1.turn:
+                current_player = player1
+            else:
+                current_player = player2
+            applicant_str = self._get_text(lasts, start_3str, stop_3str)
+            if applicant_str == 'EXIT':
+                finished = True
+                continue
+            applicant = stell_graph.is_neighbours(current, applicant_str)
+            if applicant:
+                if applicant.mark:
+                    current_player.mistakes -= 1
+                    self._special_event(window, 'mistake.jpg')
+                    clock.tick(1)
+                else:
+                    current = applicant
+                    current_player.path = model.np.append(current_player.path, 
+                                            current.names[0])
+                    player1.turn = not player1.turn
+                    player2.turn = not player2.turn
+                    print('Meow')
+            else:
+                current_player.mistakes -= 1
+                self._special_event(window, 'mistake.jpg')
+        
+            if not current_player.mistakes:
+                if current_player is player1:
+                    self._special_event(window, 'pl2win.jpg')
+                    clock.tick(0.3)
+                    finished = 1
+                else:
+                    self._special_event(window, 'pl1win.jpg')
+                    clock.tick(0.3)
+                    finished = 1
+            if current is stop:
+                if current_player is player1:
+                    self._special_event(window, 'pl1win.jpg')
+                    clock.tick(0.3)
+                    finished = 1
+                else:
+                    self._special_event(window, 'pl2win.jpg')
+                    clock.tick(0.3)
+                    finished = 1
+            pygame.display.update()
+            clock.tick(FPS)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    finished = True
 
-
-#Настройка звука
+# Sound
 pygame.mixer.pre_init(44100, -16, 1, 100)
 pygame.mixer.init()
-
 sound = pygame.mixer.Sound('starwars.ogg')
 sound.play(-1)
 

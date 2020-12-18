@@ -4,7 +4,7 @@
 AttributeError - сделать exception
 is_neighbours - реализовать через exception в мейне, так сильно быстрее
 
-
+branch test
 '''
 
 # model.py
@@ -12,7 +12,7 @@ is_neighbours - реализовать через exception в мейне, та�
 import numpy as np
 import re
 import codecs
-       
+from random import randint
 
 class Node:
     '''
@@ -149,3 +149,15 @@ class Graph:
             if step_name in self.constellations[i].names:
                 return self.constellations[i]
         return False
+    
+    def rnd_start_stop (self):
+        start = list(self.constellations)[randint(0, 87)]
+        done = False
+        while not done:
+            stop = list(self.constellations)[randint(0, 87)]
+            if stop == start:
+                continue
+            if self.is_neighbours(self.constellations[start], stop):
+                continue
+            return (start, stop)
+        
