@@ -70,7 +70,8 @@ class Menu:
             self.renderrul(screen, font_rules, button)
             for e in pygame.event.get():
                 if e.type == pygame.QUIT:
-                    sys.exit()
+                    done = 0
+                    continue
                 if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                     print(mp)
                     if button == 0:
@@ -182,6 +183,8 @@ class Menu:
                 if event.type == pygame.locals.KEYDOWN:
                     if event.unicode.isalpha():
                         applicant += event.unicode
+                    elif event.key == pygame.locals.K_SPACE:
+                        applicant += ' '
                     elif event.key == pygame.locals.K_BACKSPACE:
                         applicant = applicant[:-1]
                     elif event.key == pygame.locals.K_RETURN:
