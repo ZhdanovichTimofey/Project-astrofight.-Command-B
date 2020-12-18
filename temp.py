@@ -5,6 +5,12 @@ import sys
 import tkinter as t
 import pygame.locals
 
+class Player:
+    def __init__(self, turn):
+        self.score = 0
+        self.mistakes = 3
+        self.turn = turn
+        self.path = np.array([], dtype = '<U13')
 
 pygame.init()
 
@@ -12,7 +18,7 @@ FPS = 20
 
 stell_graph = model.Graph('Data.txt')
 start_3str, stop_3str = stell_graph.rnd_start_stop()
-current = start_3str
+current = stell_graph.constellations[start_3str]
 
 window = pygame.display.set_mode((800, 670))
 screen = pygame.Surface((800, 670))
@@ -53,6 +59,11 @@ def get_text():
         window.blit(applicant_text, rect)
         clock.tick(FPS)
         pygame.display.flip()
+        
+def special_event(window, file_name):
+    screen = pygame.image.load(file_name)
+    window.blit(screen, (0, 0))
+    pygame.display.update()
 
 win_blit(window, 'master.jpg', 'name.png', start_3str, stop_3str)
 
@@ -61,14 +72,46 @@ pygame.display.flip()
 clock = pygame.time.Clock()
 finished = False
 
-path1 = []
-path2 = []
-
+player1 = Player(True)
+player2 = Player(False)
 
 while not finished:
-    applicant = get_text()
-    if applicant == 'EXIT':
+    current.mark = 1
+    if player1.turn:
+        current_player = player1
+    else:
+        current_player = player2
+    applicant_str = get_text()
+    if applicant_str == 'EXIT':
         finished = True
+        continue
+    applicant = stell_graph.is_neighbours(current, applicant_str)
+    if applicant:
+        if applicant.mark:
+            current_player.mistakes -= 1
+            special_event(window, 'mistake.jpg')
+            clock.tick(1)
+        else:
+            current = applicant
+            current_player.path = np.append(current_player.path, 
+                                            current.names[0])
+            player1.turn = not player1.turn
+            player2.turn = not player2.turn
+            print('Meow')
+    else:
+        current_player.mistakes -= 1
+        special_event(window, 'mistake.jpg')
+        clock.tick(1)
+        
+    if not current_player.mistakes:
+        if current_player is player1:
+            special_event(window, 'pl2win.jpg')
+            clock.tick(0.1)
+            finished = 1
+        else:
+            special_event(window, 'pl1win.jpg')
+            clock.tick(0.1)
+            finished = 1
     
     pygame.display.update()
     clock.tick(FPS)
