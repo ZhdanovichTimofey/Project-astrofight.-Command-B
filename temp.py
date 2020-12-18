@@ -26,7 +26,7 @@ screen = pygame.Surface((800, 670))
 
 pygame.display.set_caption('ASTROWARS')
 
-def win_blit(window, master_file_name, name_file_name, start, stop):
+def win_blit(window, master_file_name, name_file_name, start, stop, lasts):
     screen = pygame.image.load(master_file_name)
     info = pygame.image.load(name_file_name)
     window.blit(screen, (0, 150))
@@ -37,8 +37,18 @@ def win_blit(window, master_file_name, name_file_name, start, stop):
     window.blit(start_text, (150, 186))
     stop_text = f.render(stop, True, (251, 243, 0))
     window.blit(stop_text, (94, 237))
+    try:
+        last1 = f.render(lasts[0], True, (251, 243, 0))
+        window.blit(last1, (150, 370))
+    except IndexError:
+        pass
+    try:
+        last2 = f.render(lasts[1], True, (251, 243, 0))
+        window.blit(last2, (500, 370))
+    except IndexError:
+        pass
 
-def get_text():
+def get_text(lasts):
     applicant = ''
     font = pygame.font.Font(None, 52)
     done = False
@@ -53,7 +63,7 @@ def get_text():
                     return applicant
             elif event.type == pygame.QUIT:
                 return 'EXIT'
-        win_blit(window, 'master.jpg', 'name.png', start_3str, stop_3str)
+        win_blit(window, 'master.jpg', 'name.png', start_3str, stop_3str, lasts)
         applicant_text = font.render(applicant, True, (251, 243, 0))
         rect = applicant_text.get_rect()
         rect.center = (400, 620)
@@ -66,7 +76,7 @@ def special_event(window, file_name):
     window.blit(screen, (0, 0))
     pygame.display.update()
 
-win_blit(window, 'master.jpg', 'name.png', start_3str, stop_3str)
+win_blit(window, 'master.jpg', 'name.png', start_3str, stop_3str, [])
 
 pygame.display.flip()
 
@@ -77,12 +87,21 @@ player1 = Player(True)
 player2 = Player(False)
 
 while not finished:
+    lasts = []
+    try:
+        lasts.append(player1.path[len(player1.path) - 1])
+    except IndexError:
+        pass
+    try:
+        lasts.append(player2.path[len(player2.path) - 1])
+    except IndexError:
+        pass
     current.mark = 1
     if player1.turn:
         current_player = player1
     else:
         current_player = player2
-    applicant_str = get_text()
+    applicant_str = get_text(lasts)
     if applicant_str == 'EXIT':
         finished = True
         continue
